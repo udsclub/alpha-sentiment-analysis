@@ -8,13 +8,13 @@ Batch: 128
 
 Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4)
 
-Train accuracy:
+Train accuracy: 85.15%
 
-Train loss:
+Train loss: 0.3286
 
-Validation accuracy:
+Validation accuracy: 82.68%
 
-Validation loss: 
+Validation loss: 0.3801
 
 
 
