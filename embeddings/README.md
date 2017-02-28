@@ -37,10 +37,19 @@ Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4)
 
 - glove.6B.100d.txt, batch_size=256     155s - loss: 0.3857 - acc: 0.8189 - val_loss: 0.4136 - val_acc: 0.8062     
 - glove.6B.300d.txt, batch_size=256     217s - loss: 0.3204 - acc: 0.8565 - val_loss: 0.4025 - val_acc: 0.8186
-
 - glove.6B.100d.txt, batch_size=128     171s - loss: 0.3734 - acc: 0.8272 - val_loss: 0.4086 - val_acc: 0.8095
 - glove.6B.300d.txt, batch_size=128     254s - loss: 0.3187 - acc: 0.8587 - val_loss: 0.4141 - val_acc: 0.8137
-
 - glove.6B.100d.txt, batch_size=64      283s - loss: 0.3658 - acc: 0.8329 - val_loss: 0.4237 - val_acc: 0.8073
 - glove.6B.300d.txt, batch_size=64      364s - loss: 0.2966 - acc: 0.8694 - val_loss: 0.4223 - val_acc: 0.8183
+
+### 4. Trained Glove embeddings on rotten tomatoes database (https://yadi.sk/d/UlT88tKF3Em92X) 
+
+Trained with embedding_size=300, context_size=10, min_occurrences=1, learning_rate=0.05, batch_size=512
+and num_epochs=100, log_dir="log/example", summary_batch_interval=1000
+
+Optimizer: adam
+
+Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4), batch_size=64
+
+Result 278s - loss: 0.3499 - acc: 0.8414 - val_loss: 0.4585 - val_acc: 0.7914
 
