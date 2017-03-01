@@ -16,7 +16,30 @@ Validation accuracy: 82.68%
 
 Validation loss: 0.3801
 
+<<<<<<< Updated upstream
 ### 2. Pretrained Glove embeddings(http://nlp.stanford.edu/data/glove.6B.zip) – glove.py
+=======
+n_epochs: 13
+
+Optimizer: sgd with momentum (lr=1, momentum=0.6)
+
+Batch: 128
+
+Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4)
+
+Train accuracy: 85.54%
+
+Train loss: 0.3230
+
+Validation accuracy: 82.43%
+
+Validation loss: 0.3801
+
+n_epochs: 29
+
+
+2. Pretrained Glove embeddings(http://nlp.stanford.edu/data/glove.6B.zip) – glove.py
+>>>>>>> Stashed changes
 
 Optimizer: adam
 
@@ -52,4 +75,6 @@ Optimizer: adam
 Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4), batch_size=64
 
 Result 278s - loss: 0.3499 - acc: 0.8414 - val_loss: 0.4585 - val_acc: 0.7914
+
+
 
