@@ -80,19 +80,32 @@ Result 278s - loss: 0.3499 - acc: 0.8414 - val_loss: 0.4585 - val_acc: 0.7914
 
 Optimizer: adam
 
-Batch: 2000
+Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2
 
-Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4)
+MAX_SEQUENCE_LENGTH| Batch |     Dropout      | Train accuracy           | Validation accuracy  | Test accuracy  |Epochs |
+| ------------- |:-------------:| -----:| -----:| -----:|
+| 50     | 128 | 0.4 | 90.44%|  85.01% | 76.17% | 10 |
+| 50     | 2000 | 0.4 | 85.76%|  83.40% | 74.18% | 35 |
+| 50     | 128 | 0.2 | 86.56%|  84.32% | 76.37% | 27 |
+| 100     | 2000 | 0.4 | 89.85%|  88.09% | 76.32% | 68 |
 
-- MAX_SEQUENCE_LENGTH = 50
-Epoch 35 на imdb acc: 85.76%
-на RT acc: 74.18%
-на валидации 83.40%
 
-- MAX_SEQUENCE_LENGTH = 100
-Epoch 68/100
-40000/40000 [==============================] - 256s - loss: 0.2442 - acc: 0.8985 - val_loss: 0.2970 - val_acc: 0.8809
-на RT acc: 76.32%
+### Optimizers comparisons on rotten tomatoes database (https://yadi.sk/d/UlT88tKF3Em92X) 
+
+| Optimizer        | Train accuracy           | Validation accuracy  | Epochs |
+| ------------- |:-------------:| -----:| -----:| -----:|
+| SGD nesterov momentum     | 85.79% | 82.33% | 46| 
+| RMSprop     | 87.55% | 82.90% | 23|
+| Adam | **89.03%** | 82.80% | 26|
+| Adamax | 87.40% | **82.99%** | 30|
+| Nadam | 88.12% | 82.65% | **14**|
+| Adadelta | 83.70% | 82.50% | 58|
+| Adadelta | 83.59% | 81.89% | 68|
+
+
+
+
+
 
 
 
