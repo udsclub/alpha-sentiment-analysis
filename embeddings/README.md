@@ -102,8 +102,13 @@ MAX_SEQUENCE_LENGTH| Batch |     Dropout      | Train accuracy           | Valid
 | Adadelta | 83.70% | 82.50% | 58|
 | Adadelta | 83.59% | 81.89% | 68|
 
+Validation accuracy plot 
 
+![alt text](https://www.dropbox.com/s/h9mluv8c9l38jrb/val_acc.png?dl=0)
 
+Validation loss plot 
+
+![alt text](https://www.dropbox.com/s/b6y3621bqg30w60/val_loss.png?dl=0)
 
 
 
