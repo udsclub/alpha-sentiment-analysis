@@ -76,5 +76,23 @@ Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4), batch_size=
 
 Result 278s - loss: 0.3499 - acc: 0.8414 - val_loss: 0.4585 - val_acc: 0.7914
 
+### 5. Pretrained word2vec embeddings( https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/ ) 
+
+Optimizer: adam
+
+Batch: 2000
+
+Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2, dropout(0.4)
+
+- MAX_SEQUENCE_LENGTH = 50
+Epoch 35 на imdb acc: 85.76%
+на RT acc: 74.18%
+на валидации 83.40%
+
+- MAX_SEQUENCE_LENGTH = 100
+Epoch 68/100
+40000/40000 [==============================] - 256s - loss: 0.2442 - acc: 0.8985 - val_loss: 0.2970 - val_acc: 0.8809
+на RT acc: 76.32%
+
 
 
