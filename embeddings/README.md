@@ -16,7 +16,6 @@ Validation accuracy: 82.68%
 
 Validation loss: 0.3801
 
-<<<<<<< Updated upstream
 ### 2. Pretrained Glove embeddings(http://nlp.stanford.edu/data/glove.6B.zip) – glove.py
 =======
 n_epochs: 13
@@ -39,7 +38,6 @@ n_epochs: 29
 
 
 2. Pretrained Glove embeddings(http://nlp.stanford.edu/data/glove.6B.zip) – glove.py
->>>>>>> Stashed changes
 
 Optimizer: adam
 
