@@ -82,13 +82,14 @@ Model params: LSTM(128), dropout_U=0.2, dropout_W=0.2
 
 MAX_SEQUENCE_LENGTH| Batch |     Dropout      | Train accuracy           | Validation accuracy  | Test accuracy  |Epochs |
 | ------------- |:-------------:| -----:| -----:| -----:| -----:| -----:|
-| 50     | 128 | 0.4 | **90.44%**|  85.01% | 76.17% | **10** |
+| 50     | 128 | 0.4 | 90.44%|  85.01% | 76.17% | **10** |
 | 50     | 2000 | 0.4 | 85.76%|  83.40% | 74.18% | 35 |
 | 50     | 128 | 0.2 | 86.56%|  84.32% | **76.37%** | 27 |
-| 100     | 2000 | 0.4 | 89.85%|  **88.09%** | 76.32% | 68 |
+| 100     | 128 | 0.4 | **91.16%**|  **88.81%** | 76.29% | 27 |
+| 100     | 2000 | 0.4 | 89.85%|  88.09% | 76.32% | 68 |
 
 
-### Optimizers comparisons on rotten tomatoes database (https://yadi.sk/d/UlT88tKF3Em92X) 
+### 6. Optimizers comparisons on rotten tomatoes database (https://yadi.sk/d/UlT88tKF3Em92X) 
 
 | Optimizer        | Train accuracy           | Validation accuracy  | Epochs |
 | ------------- |:-------------:| -----:| -----:| -----:|
@@ -107,8 +108,6 @@ Validation accuracy plot
 Validation loss plot 
 
 ![alt text](https://github.com/udsclub/alpha-sentiment-analysis/blob/master/plots/val_loss_optimizers_comp.png)
-
-
 
 
 
