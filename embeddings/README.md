@@ -104,11 +104,11 @@ MAX_SEQUENCE_LENGTH| Batch |     Dropout      | Train accuracy           | Valid
 
 Validation accuracy plot 
 
-![alt text](https://www.dropbox.com/s/h9mluv8c9l38jrb/val_acc.png?dl=0)
+![alt text](https://github.com/udsclub/alpha-sentiment-analysis/blob/master/plots/val_acc_optimizers_comp.png)
 
 Validation loss plot 
 
-![alt text](https://www.dropbox.com/s/b6y3621bqg30w60/val_loss.png?dl=0)
+![alt text](https://github.com/udsclub/alpha-sentiment-analysis/blob/master/plots/val_loss_optimizers_comp.png)
 
 
 
