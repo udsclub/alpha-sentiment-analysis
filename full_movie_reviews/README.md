@@ -11,3 +11,10 @@
 
 LSTM – whole dataset; split VALIDATION_SPLIT = 0.06552, RANDOM_SEED = 42; MAX_SEQUENCE_LENGTH = 50; LSTM(128, dropout_U=0.2, dropout_W=0.2), Dropout(0.3).
 
+| Approach        | Train Accuracy           | Validation Accuracy  | Epochs |MAX_NB_WORDS | MAX_SEQUENCE_LENGTH |
+| --------------- |:------------------------:| :-------------------:| :-----:|:-----------:|:-----------:|
+| LSTM            | 86.26%                   | 83.86%               | 55     |20000        | 50          |
+| LSTM            | 85.69%                   | 84.23%               | 41     |20000        | 100          |
+
+
+LSTM – whole dataset; split VALIDATION_SPLIT = 0.2, RANDOM_SEED = 42; LSTM(128, dropout_U=0.2, dropout_W=0.2), Dropout(0.4), , batch_size=2000.
