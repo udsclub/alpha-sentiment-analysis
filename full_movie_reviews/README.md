@@ -13,6 +13,10 @@
 | biLSTM | 87.04% | 84.94% | 45   |20000  |0.2  |0.2  | 50   |0.2  |0.2   |128   |-     |-     |
 | mLSTM  | 86.67% | 84.43% |**18**|20000  |0    |0    | 50   |0.1  |0.1   |64    |32    |0     |
 | mLSTM  | 88.43% | 85.59% |32    |20000  |0.2  |0.2  | 50   |0.1  |0.1   |128   |64    |0.2   |
+| mBiLSTM| 87.95% | 83.85% |24    |20000  |0.2  |0.2  | 25   |0.1  |0.1   |128   |64    |0.2   |
+| mBiLSTM| 89.56% | 85.61% |34    |20000  |0.2  |0.2  | 50   |0.1  |0.1   |128   |64    |0.2   |
+| mBiLSTM| 88.43% | 86.18% |28    |20000  |0.2  |0.2  | 100  |0.1  |0.1   |128   |64    |0.2   |
+
 
 
 LSTM – whole dataset; split VALIDATION_SPLIT = 0.06552, RANDOM_SEED = 42
@@ -20,6 +24,8 @@ LSTM – whole dataset; split VALIDATION_SPLIT = 0.06552, RANDOM_SEED = 42
 biLSTM – Bidirectional LSTM, whole dataset; split VALIDATION_SPLIT = 0.06552, RANDOM_SEED = 42
 
 mLSTM – Merged LSTMs with Dense layer (LSTM_1 - left MAX SEQUENCE LENGTH words,  LSTM_2 - right MAX SEQUENCE LENGTH words => merged(concatenation) => Dense)
+
+mBiLSTM – Merged Bidirectional LSTMs with Dense layer (biLSTM_1 - left MAX SEQUENCE LENGTH words,  biLSTM_2 - right MAX SEQUENCE LENGTH words => merged(concatenation) => Dense)
 
 | Approach| Train Accuracy|Validation Accuracy|Epochs|MAX_NB_WORDS|MAX_SEQUENCE_LENGTH|
 | ------- |:-------------:| :----------------:|:----:|:----------:|:-----------------:|
