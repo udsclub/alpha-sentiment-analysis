@@ -18,8 +18,8 @@ from sklearn.model_selection import train_test_split
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 BASE_DIR = '../'
-EMBEDDING_DIR = BASE_DIR + 'embeddings/'
-EMBEDDING_FILE = "GoogleNews-vectors-negative300.bin" # https://github.com/3Top/word2vec-api
+EMBEDDING_DIR = BASE_DIR + 'embeddings/'  # http://nlp.stanford.edu/projects/glove/ pretrained vectors
+EMBEDDING_FILE = "GoogleNews-vectors-negative300.bin"
 TEXT_DATA_DIR = BASE_DIR + 'data/'
 TEXT_DATA_FILE = "train_movies.csv"
 LR = 0.001
@@ -60,7 +60,8 @@ def preprocess(text):
 
 def load_data(n):
     df_train = pd.read_csv(os.path.join(TEXT_DATA_DIR, TEXT_DATA_FILE))
-    df_train, _ = train_test_split(df_train, train_size=n, random_state=42)
+    if n != 'all':
+        df_train, _ = train_test_split(df_train, train_size=n, random_state=42)
     train, test = train_test_split(df_train.asin.unique(), test_size=VALIDATION_SPLIT, random_state=42)
     train_reviews, labels_train_reviews = df_train.loc[(df_train.asin.isin(train)) & (~pd.isnull(df_train.reviewText)),
                                                        "reviewText"].values, \
@@ -165,6 +166,6 @@ def run(n):
     embedding_matrix = prepare_embeddings(word_index)
     train_model(Adam(lr=LR), embedding_matrix, X_train, y_train, X_test, y_test, n)
 
-for i in [100000, 200000, 500000, 1000000]:
+for i in [100000, 200000, 500000, 1000000, 'all']:
     run(i)
 
