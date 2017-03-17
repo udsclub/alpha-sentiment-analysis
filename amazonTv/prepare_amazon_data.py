@@ -2,7 +2,7 @@ import pandas as pd
 import gzip
 from sklearn.model_selection import train_test_split
 
-PATH = '../../data/Movies_and_TV_5.json.gz'
+PATH = 'data/Movies_and_TV_5.json.gz'
 
 
 def parse():
