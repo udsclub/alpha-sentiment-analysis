@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pandas as pd
 from gensim import models
 import six.moves.cPickle
 from datetime import datetime
@@ -18,7 +19,7 @@ from sklearn.model_selection import train_test_split
 BASE_DIR = '../'
 EMBEDDING_DIR = BASE_DIR + 'embeddings/'  # http://nlp.stanford.edu/projects/glove/ pretrained vectors
 EMBEDDING_FILE = "GoogleNews-vectors-negative300.bin"
-TEXT_DATA_DIR = BASE_DIR + '../data/'
+TEXT_DATA_DIR = BASE_DIR + 'data/'
 TEXT_DATA_FILE = "train_movies.csv"
 LR = 0.001
 HEADER = True
@@ -59,17 +60,23 @@ def preprocess(text):
 
 
 def load_data():
-    x = []
-    y = []
-    with open(os.path.join(TEXT_DATA_DIR, TEXT_DATA_FILE), "r", encoding="utf-8") as f:
-        if HEADER:
-            _ = next(f)
-        for line in f:
-            temp_y, temp_x = line.rstrip("\n").split("|", 1)
-            x.append(preprocess(temp_x))
-            y.append(temp_y)
+    df_train = pd.read_csv(os.path.join(TEXT_DATA_DIR, TEXT_DATA_FILE))
+    train, test = train_test_split(df_train.asin.unique(), test_size=0.1, random_state=42)
+    train_reviews, labels_train_reviews = df_train.loc[(df_train.asin.isin(train)) & (~pd.isnull(df_train.reviewText)),
+                                                       "reviewText"].values, \
+                                          df_train.loc[(df_train.asin.isin(train)) & (~pd.isnull(df_train.reviewText)),
+                                                       "overall"].values
+    test_reviews, labels_test_reviews = df_train.loc[(df_train.asin.isin(test)) & (~pd.isnull(df_train.reviewText)),
+                                                     "reviewText"].values, df_train.loc[(df_train.asin.isin(test)) &
+                                                                                        (~pd.isnull(df_train.reviewText)),
+                                                                                        "overall"].values
 
-    return x, y
+    for x in range(len(train_reviews)):
+        train_reviews[x] = preprocess(train_reviews[x])
+    for x in range(len(test_reviews)):
+        test_reviews[x] = preprocess(test_reviews[x])
+
+    return train_reviews, labels_train_reviews, test_reviews, labels_test_reviews
 
 
 def transform(tokenizer_object, train, test, l_train, l_test, both_sides=True):
@@ -136,9 +143,9 @@ def train_model(optimizer, embeddings, add_to_name):
 
     callback_1 = TensorBoard(log_dir='./logs/logs_{}'.format(NAME+str(add_to_name)), histogram_freq=0,
                              write_graph=False, write_images=False)
-    callback_2 = EarlyStopping(monitor='val_acc', min_delta=0, patience=5, verbose=0, mode='auto')
+    callback_2 = EarlyStopping(monitor='val_acc', min_delta=0, patience=10, verbose=0, mode='auto')
     callback_3 = ModelCheckpoint("models/model_{}.hdf5".format(NAME+str(add_to_name)), monitor='val_acc',
-                                 save_best_only=True, verbose=1)
+                                 save_best_only=True, verbose=0)
 
     embedding_layer = Embedding(embeddings.shape[0],
                                 embeddings.shape[1],
@@ -150,18 +157,14 @@ def train_model(optimizer, embeddings, add_to_name):
     model = model_initialization(embedding_layer)
     model.compile(loss='binary_crossentropy',
                   optimizer=optimizer,
-                  metrics=['accuracy'])
+                  metrics=['accuracy', 'fmeasure', 'precision', 'recall'])
 
     model.fit(X_train, y_train, validation_data=[X_test, y_test], batch_size=1024, nb_epoch=1000,
-              callbacks=[callback_1, callback_2, callback_3])
+              callbacks=[callback_1, callback_2, callback_3], verbose=2)
 
 
-data, labels = load_data()
-labels = np.asarray(labels, dtype='int8')
-
-data_train, data_test, labels_train, labels_test = \
-    train_test_split(data, np.asarray(labels, dtype='int8'),
-                     test_size=VALIDATION_SPLIT, random_state=RANDOM_SEED, stratify=labels)
+data_train, labels_train, data_test, labels_test = load_data()
+print(len(data_train), len(data_test))
 
 # tokenizer = Tokenizer(nb_words=MAX_NB_WORDS)  # create dictionary of MAX_NB_WORDS, other words will not be used
 tokenizer = Tokenizer(nb_words=MAX_NB_WORDS, filters='"#$%&()*+-/:;<=>@[\\]^{|}~\t\n,.')
