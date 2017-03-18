@@ -71,8 +71,10 @@ def load_data(m):
     test_reviews, labels_test_reviews = df_train.loc[df_train.asin.isin(test), "reviewText"].values, \
                                                 df_train.loc[df_train.asin.isin(test), "overall"].values
 
+    indexes = np.arange(len(train_reviews))
     np.random.seed(RANDOM_SEED)
-    np.random.shuffle(train_reviews)
+    np.random.shuffle(indexes)
+    train_reviews, labels_train_reviews = train_reviews[indexes], labels_train_reviews[indexes]
 
     for x in range(len(train_reviews)):
         train_reviews[x] = preprocess(train_reviews[x])
@@ -151,7 +153,7 @@ def train_model(optimizer, embeddings, X_train, y_train, X_test, y_test, add_to_
                   metrics=['accuracy', 'fmeasure', 'precision', 'recall'])
 
     model.fit(X_train, y_train, validation_data=[X_test, y_test], batch_size=1024, nb_epoch=1000,
-              callbacks=[callback_1, callback_2, callback_3], verbose=2)
+              callbacks=[callback_1, callback_2, callback_3], verbose=1)
 
 
 def run(m):
