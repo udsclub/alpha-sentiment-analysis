@@ -58,20 +58,22 @@ def preprocess(text):
     return text
 
 
-def load_data(n):
+def load_data(m):
     df_train = pd.read_csv(os.path.join(TEXT_DATA_DIR, TEXT_DATA_FILE))
-    if n != 'all':
-        df_train, _ = train_test_split(df_train, train_size=n, random_state=42)
-    train, test = train_test_split(df_train.asin.unique(), test_size=VALIDATION_SPLIT, random_state=42)
-    train_reviews, labels_train_reviews = df_train.loc[(df_train.asin.isin(train)) & (~pd.isnull(df_train.reviewText)),
-                                                       "reviewText"].values, \
-                                          df_train.loc[(df_train.asin.isin(train)) & (~pd.isnull(df_train.reviewText)),
-                                                       "overall"].values
-    test_reviews, labels_test_reviews = df_train.loc[(df_train.asin.isin(test)) & (~pd.isnull(df_train.reviewText)),
-                                                     "reviewText"].values, df_train.loc[(df_train.asin.isin(test)) &
-                                                                                        (~pd.isnull(
-                                                                                            df_train.reviewText)),
-                                                                                        "overall"].values
+    df_train_bad = df_train[(df_train.overall == 0) & (~df_train.reviewText.isnull())].copy()
+    n = len(df_train_bad)
+    df_train_good, _ = train_test_split(df_train[(df_train.overall == 1) & (~df_train.reviewText.isnull())],
+                                        train_size=int(n*m), random_state=RANDOM_SEED)
+    df_train = pd.concat([df_train_good, df_train_bad])
+    train, test = train_test_split(df_train.asin.unique(), test_size=VALIDATION_SPLIT, random_state=RANDOM_SEED)
+    train_reviews, labels_train_reviews = df_train.loc[df_train.asin.isin(train), "reviewText"].values, \
+                                                df_train.loc[df_train.asin.isin(train), "overall"].values
+    test_reviews, labels_test_reviews = df_train.loc[df_train.asin.isin(test), "reviewText"].values, \
+                                                df_train.loc[df_train.asin.isin(test), "overall"].values
+
+    np.random.seed(RANDOM_SEED)
+    np.random.shuffle(train_reviews)
+
     for x in range(len(train_reviews)):
         train_reviews[x] = preprocess(train_reviews[x])
     for x in range(len(test_reviews)):
@@ -152,19 +154,19 @@ def train_model(optimizer, embeddings, X_train, y_train, X_test, y_test, add_to_
               callbacks=[callback_1, callback_2, callback_3], verbose=2)
 
 
-def run(n):
-    data_train, labels_train, data_test, labels_test = load_data(n)
+def run(m):
+    data_train, labels_train, data_test, labels_test = load_data(m)
     print(len(data_train), len(data_test))
     # tokenizer = Tokenizer(nb_words=MAX_NB_WORDS)  # create dictionary of MAX_NB_WORDS, other words will not be used
     tokenizer = Tokenizer(nb_words=MAX_NB_WORDS, filters='"#$%&()*+-/:;<=>@[\\]^{|}~\t\n,.')
     tokenizer.fit_on_texts(data_train)
-    six.moves.cPickle.dump(tokenizer, open("../tokenizers/{}_tokenizer_{}".format(NAME, n), "wb"))
+    six.moves.cPickle.dump(tokenizer, open("../tokenizers/{}_tokenizer_{}".format(NAME, m), "wb"))
 
     X_train, X_test, word_index = transform(tokenizer, data_train, data_test)
     y_train, y_test = to_categorical(np.asarray(labels_train)), to_categorical(np.asarray(labels_test))
     embedding_matrix = prepare_embeddings(word_index)
-    train_model(Adam(lr=LR), embedding_matrix, X_train, y_train, X_test, y_test, n)
+    train_model(Adam(lr=LR), embedding_matrix, X_train, y_train, X_test, y_test, m)
 
-for i in [100000, 200000, 500000, 1000000, 'all']:
+for i in [1, 1.5, 2.5, 5]:
     run(i)
 
